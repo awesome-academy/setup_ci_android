@@ -28,5 +28,6 @@ jobs:
   only:
     branches:
     - develop
+    - main
     events:
     - pull_request
