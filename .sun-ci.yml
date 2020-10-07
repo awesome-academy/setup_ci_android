@@ -23,6 +23,11 @@ jobs:
   script:
   - ./gradlew androidDependencies
   - ./gradlew lint test
+  artifacts:
+      paths:
+        - app/build/reports
+        - app/build/test-results
+      expires_in: 3 days
   after_script:
   - echo "Finish job"
   only:
