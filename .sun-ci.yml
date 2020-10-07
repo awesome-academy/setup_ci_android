@@ -21,7 +21,6 @@ jobs:
   - echo "Start job"
   - chmod +x ./gradlew
   script:
-  - ./gradlew androidDependencies
   - ./gradlew lint test
   artifacts:
       paths:
