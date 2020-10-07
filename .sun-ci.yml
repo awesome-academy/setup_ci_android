@@ -1,0 +1,32 @@
+workspace: true
+
+stages:
+  - build
+
+jobs:
+- name: Build
+  stage: build
+  image: androidsdk/android-29:latest
+  environment:
+    JVM_OPTS: -Xmx3200m
+      # This is Android review pull request box (Not necessary to change)
+      ROOM_ID: "190272930"
+      # Insert the chatwork accounts which you want to mention when the pull request was verified
+      MEMBERS: ""
+  cache:
+  - key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+    paths:
+      - ~/.gradle
+  before_script:
+  - echo "Start job"
+  - chmod +x ./gradlew
+  script:
+  - ./gradlew androidDependencies
+  - ./gradlew lint test
+  after_script:
+  - echo "Finish job"
+  only:
+    branches:
+    - develop
+    events:
+    - pull_request
