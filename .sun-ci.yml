@@ -4,7 +4,7 @@ stages:
   - lint 
 
 jobs:
-- name: Check lint
+- name: Lint checking
   stage: lint
   image: androidsdk/android-29:latest
   environment:
@@ -16,12 +16,11 @@ jobs:
     paths:
       - ./gradle
   before_script:
-  - echo "Start Build and Test"
   - chmod +x ./gradlew
   - echo "failed (pray)(sweat);(" > .msg_status
   - echo "(devil)" > .msg_icon
   script:
- # - ./gradlew lint test
+  - ./gradlew lint test
   - echo "successful (F)(F)(F)" > .msg_status
   - echo "(handshake)" > .msg_icon
   artifacts:
@@ -30,7 +29,6 @@ jobs:
         - app/build/test-results
       expires_in: 3 days
   after_script:
-  - echo "Check lint and test successfully"
   - echo "$CI_COMMIT_REF" | sed 's/refs//' > .pull_link
   - "curl -X POST -H \"X-ChatWorkToken: $CHATWORK_API_KEY\" -d \
                 \"body= $MEMBERS [info][title]Repository : $CI_REPOSITORY $(cat .msg_icon)[/title]Your pull request is $(cat .msg_status) \n
@@ -46,4 +44,3 @@ jobs:
     - master
     events:
     - pull_request
-    - push
